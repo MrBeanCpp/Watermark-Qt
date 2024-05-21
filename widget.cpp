@@ -17,6 +17,7 @@ Widget::Widget(QWidget *parent)
     watermark = std::make_unique<WatermarkWidget>("蔡姬 MrBeanC", this); // 必须是子窗体 + 内部置顶， 否则全局置顶会影响其他窗口
     watermark->show();
 
+    ui->label->setPixmap(QPixmap(R"(D:\Qt\projects\Watermark\imgs\coding Dog.jpg)"));
     ui->label->adjustSize();
 
     connect(ui->pushButton, &QPushButton::clicked, this, [=](){
