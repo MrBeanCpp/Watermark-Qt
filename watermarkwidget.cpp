@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QtMath>
+#include <QTimer>
 
 WatermarkWidget::WatermarkWidget(const QString& watermark, QWidget *parent)
     : QWidget(parent), ui(new Ui::WatermarkWidget)
@@ -19,8 +20,13 @@ WatermarkWidget::WatermarkWidget(const QString& watermark, QWidget *parent)
     this->parent = parent;
     parent->installEventFilter(this); // 监听父窗口的事件(move resize)
 
-    resize(parent->size());
     raise(); // 使水印在最顶层
+
+    // 需要等父窗口渲染完毕后，frameSize才会包含边框高度
+    QTimer::singleShot(0, this, [=](){
+        resize(parent->frameSize());
+    });
+
 }
 
 WatermarkWidget::~WatermarkWidget()
