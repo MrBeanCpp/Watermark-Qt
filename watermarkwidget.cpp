@@ -17,7 +17,7 @@ WatermarkWidget::WatermarkWidget(const QString& watermark, QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);// Dialog or Tool (Popup | Dialog)
 
     this->parent = parent;
-    parent->installEventFilter(this);
+    parent->installEventFilter(this); // 监听父窗口的事件(move resize)
 
     resize(parent->size());
     raise(); // 使水印在最顶层
@@ -45,8 +45,7 @@ void WatermarkWidget::paintEvent(QPaintEvent*)
     int marginH = 60; // 斜向间隔
     int angle = -25; // 水印倾斜角度
 
-    // 原点移动到中心
-    painter.translate(this->width() / 2, this->height() / 2);
+    // painter.translate(0, 0); // 只能以左上角为原点，否则resize的时候，watermark会位移
     // 旋转坐标系
     painter.rotate(angle);
 
